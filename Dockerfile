@@ -10,9 +10,8 @@ COPY . /app
 # Install any needed packages specified in requirements.txt
 RUN pip install -r requirements.txt
 
-# Make port 8000 available to the world outside this container
+# Make port 8008 available to the world outside this container
 EXPOSE 8008
 
-# Define the command to run your application
-CMD  python manage.py runserver 0.0.0.0:8008
-
+# Define the command to run your application with Daphne
+CMD daphne -u /tmp/daphne.sock -b 0.0.0.0 -p 8008 channels_sockets.asgi:application
