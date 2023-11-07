@@ -14,4 +14,4 @@ RUN pip install -r requirements.txt
 EXPOSE 8008
 
 # Define the command to run your application with Daphne
-CMD daphne -u /tmp/daphne.sock -b 0.0.0.0 -p 8008 channels_sockets.asgi:application
+CMD daphne -b 0.0.0.0 -p 8008 channels_sockets.asgi:application
