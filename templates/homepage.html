@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatApp Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #121212;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            background-color: #1e1e1e;
+        }
+
+        .nav-link {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .nav-link:hover {
+            color: #007BFF;
+        }
+
+        .hero {
+            background-image: url('background-image.jpg'); /* Add your background image URL */
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: left; /* Left-align the content */
+            padding-left: 20px; /* Add left padding for better alignment */
+        }
+
+        .hero-content {
+            color: #fff;
+        }
+
+        .typing-animation {
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 1px solid white;
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">ChatApp</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'user_registration' %}">Register</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Welcome to ChatApp</h1>
+                <p>A place to connect with friends and chat in style.</p>
+                <p>ChatApp is a modern and secure platform that lets you chat, share, and connect with your friends and family. With ChatApp, you can:</p>
+                <ul>
+                    <li><span class="typing-animation"></span></li>
+                    <li><span class="typing-animation"></span></li>
+                    <li><span class="typing-animation"></span></li>
+                    <li><span class="typing-animation"></span></li>
+                    <li><span class="typing-animation"></span></li>
+                </ul>
+                <a class="btn btn-primary" href="#">Get Started</a>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        var descriptions = [
+            'Send text messages and make voice and video calls.',
+            'Share photos, videos, and files with ease.',
+            'Create and join group chats on various topics.',
+            'Enjoy end-to-end encryption for your privacy and security.',
+            'Stay connected with your loved ones from anywhere in the world.'
+        ];
+
+        function typeDescriptions() {
+            var typingElements = document.querySelectorAll('.typing-animation');
+            descriptions.forEach(function (description, index) {
+                typingEffect(typingElements[index], description, 0);
+            });
+        }
+
+        function typingEffect(element, text, index) {
+            if (index < text.length) {
+                element.innerHTML += text.charAt(index);
+                setTimeout(function () {
+                    typingEffect(element, text, index + 1);
+                }, 50); // Adjust the typing speed here
+            }
+        }
+
+        // Start the typing animation after the page is fully loaded
+        window.onload = typeDescriptions;
+    </script>
+</body>
+</html>

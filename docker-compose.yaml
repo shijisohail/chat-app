@@ -5,7 +5,9 @@ services:
     ports:
       - "6379:6379"
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile  # Specify the name of your Dockerfile
     environment:
       - DJANGO_SETTINGS_MODULE=channels_sockets.settings
     command: daphne channels_sockets.asgi:application -b 0.0.0.0 -p 80

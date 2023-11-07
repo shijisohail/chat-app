@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Custom CSS for dark mode */
+        body {
+            background-color: #333;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .container {
+            background-color: #444;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            margin-top: 50px;
+        }
+
+        h2 {
+            color: #FFFF;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #555;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background-color: #333;
+            color: #fff;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2><strong> User Registration</strong></h2>
+        <form method="post" action="{% url 'user_registration' %}">
+            {% csrf_token %}
+            <input type="text" name="first_name" placeholder="First Name" required><br><br>
+            <input type="text" name="last_name" placeholder="Last Name" required><br><br>
+            <input type="email" name="email" placeholder="Email" required><br><br>
+            <input type="text" name="phone_number" placeholder="Phone Number"><br><br>
+            <input type="text" name="username" placeholder="Username" required><br><br>
+            <input type="password" name="password" placeholder="Password" required><br><br>
+            <select name="status">
+                <option value="A">Active</option>
+                <option value="I">Inactive</option>
+            </select><br><br>
+            <select name="user_type">
+                <option value="S">Super Admin</option>
+                <option value="U">User</option>
+                <!-- Add more user types if needed -->
+            </select><br><br>
+            <button type="submit">Register</button>
+        </form>
+    </div>
+
+    <!-- Add a button to toggle dark mode -->
+{#    <div style="margin-top: 20px;">#}
+{#        <button onclick="toggleDarkMode()">Toggle Dark Mode</button>#}
+{#    </div>#}
+{##}
+{#    <script>#}
+{#        function toggleDarkMode() {#}
+{#            document.body.classList.toggle("dark-mode");#}
+{#        }#}
+{#    </script>#}
+</body>
+</html>
