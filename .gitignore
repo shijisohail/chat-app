@@ -1,1 +1,5 @@
 /.idea
+/venv
+docker-compose.yaml
+Dockerfile
+db.sqlite3
