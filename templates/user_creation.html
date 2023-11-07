@@ -1,3 +1,4 @@
+{% include 'navbar.html' %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,14 +9,14 @@
     <style>
         /* Custom CSS for dark mode */
         body {
-            background-color: #333;
-            color: #fff;
+            background-color: #141d2b;
+            color: #a4b1cd;
             font-family: Arial, sans-serif;
             text-align: center;
         }
 
         .container {
-            background-color: #444;
+            background-color: #333;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 400px;
@@ -39,7 +40,7 @@
             border-radius: 4px;
             box-sizing: border-box;
             background-color: #333;
-            color: #fff;
+            color: #a4b1cd;
         }
 
         button {
@@ -52,13 +53,13 @@
         }
 
         button:hover {
-            background-color: #0056b3;
+            background-color: #9fef00;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2><strong> User Registration</strong></h2>
+        <h2><strong>User Registration</strong></h2>
         <form method="post" action="{% url 'user_registration' %}">
             {% csrf_token %}
             <input type="text" name="first_name" placeholder="First Name" required><br><br>
@@ -79,16 +80,5 @@
             <button type="submit">Register</button>
         </form>
     </div>
-
-    <!-- Add a button to toggle dark mode -->
-{#    <div style="margin-top: 20px;">#}
-{#        <button onclick="toggleDarkMode()">Toggle Dark Mode</button>#}
-{#    </div>#}
-{##}
-{#    <script>#}
-{#        function toggleDarkMode() {#}
-{#            document.body.classList.toggle("dark-mode");#}
-{#        }#}
-{#    </script>#}
 </body>
 </html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Mode Navbar</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #141d2b;
+            color: #a4b1cd;
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #141d2b;
+            padding: 15px 30px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #9fef00;
+
+        }
+
+        .nav-links {
+            list-style: none;
+            padding: 0;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-right: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #a4b1cd;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #9fef00;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">ChatApp</div>
+        <ul class="nav-links">
+            <li><a href="{% url "homepage" %}">Home</a></li>
+            <li><a href="{% url "user_registration" %}">Register</a></li>
+            <li><a href="#">Login</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+</body>
+</html>

@@ -1,3 +1,5 @@
+{% include 'navbar.html' %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,8 +9,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
-            background-color: #121212;
-            color: #fff;
+            background-color: #141d2b; /* Dark background color */
+            color: #a4b1cd; /* Light text color */
             font-family: Arial, sans-serif;
         }
 
@@ -17,12 +19,12 @@
         }
 
         .nav-link {
-            color: #fff;
+            color: #a4b1cd;
             font-weight: 600;
         }
 
         .nav-link:hover {
-            color: #007BFF;
+            color: #9fef00; /* Button or hover color */
         }
 
         .hero {
@@ -38,13 +40,13 @@
         }
 
         .hero-content {
-            color: #fff;
+            color: #a4b1cd; /* Light text color */
         }
 
         .typing-animation {
             white-space: nowrap;
             overflow: hidden;
-            border-right: 1px solid white;
+            border-right: 1px solid #a4b1cd; /* Light text color */
         }
 
         @keyframes typing {
@@ -55,21 +57,21 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">ChatApp</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><a class="nav-link" href="">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Login</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'user_registration' %}">Register</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+{#    <nav class="navbar navbar-expand-lg navbar-dark">#}
+{#        <div class="container">#}
+{#            <a class="navbar-brand" href="#">ChatApp</a>#}
+{#            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">#}
+{#                <span class="navbar-toggler-icon"></span>#}
+{#            </button>#}
+{#            <div class="collapse navbar-collapse" id="navbarNav">#}
+{#                <ul class="navbar-nav ml-auto">#}
+{#                    <li class="nav-item"><a class="nav-link" href="">Home</a></li>#}
+{#                    <li class="nav-item"><a class="nav-link" href="#">Login</a></li>#}
+{#                    <li class="nav-item"><a class="nav-link" href="{% url 'user_registration' %}">Register</a></li>#}
+{#                </ul>#}
+{#            </div>#}
+{#        </div>#}
+{#    </nav>#}
 
     <section class="hero">
         <div class="container">
