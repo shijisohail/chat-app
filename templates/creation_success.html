@@ -1,5 +1,5 @@
 <!-- user_management/templates/user_management/success_template.html -->
-
+{% include 'navbar.html' %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,60 +7,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration Successful</title>
     <style>
-        body {
-            background-color: #34a4eb;
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
+    /* Custom CSS for dark mode */
+    body {
+        background-color: #141d2b;
+        color: #a4b1cd;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+    }
 
-        .container {
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 400px;
-            margin: 0 auto;
-            padding: 20px;
-            margin-top: 50px;
-        }
+    .container {
+        background-color: #2a3c57;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add this line for box shadow */
+        width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        margin-top: 50px;
+    }
 
-        h2 {
-            color: #34a4eb;
-        }
+    h2 {
+        color: #9fef00;
+    }
 
-        p {
-            color: #555;
-        }
+    input[type="text"],
+    input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #a4b1cd;
+        border-radius: 4px;
+        box-sizing: border-box;
+        background-color: #333;
+        color: #a4b1cd;
+    }
 
-        #countdown {
-            color: #f00; /* Red color for countdown text */
-        }
+    button {
+        background-color: #007BFF;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 10px 20px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
 
-        /* CSS animation for fade-in effect */
-        .fade-in {
-            animation: fadeIn 1s ease-in-out forwards;
-            opacity: 0;
-        }
+    button:hover {
+        background-color: #9fef00;
+    }
 
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
+    .form-group {
+        margin: 10px 0;
+        text-align: left;
+    }
+
+    /* Styling for the pop-up message */
+    .popup-message {
+        display: none;
+        background-color: #ff5555;
+        color: #fff;
+        padding: 10px;
+        border-radius: 4px;
+        margin-top: 10px;
+    }
     </style>
 </head>
 <body>
     <div class="container fade-in">
         <h2>Registration Successful</h2>
         <p>You have successfully registered!</p>
-        <p id="countdown">Redirecting in <span id="timer">5</span> seconds...</p>
+        <p id="countdown">Redirecting in <span id="timer">30</span> seconds...</p>
     </div>
 
     <script>
         // JavaScript code to redirect to another page after a countdown
-        let seconds = 5; // Set the countdown duration in seconds
+        let seconds = 30; // Set the countdown duration in seconds
         const countdownElement = document.getElementById('timer');
 
         function updateCountdown() {

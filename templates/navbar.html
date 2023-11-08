@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dark Mode Navbar</title>
+    <title>ChatApp</title>
     <style>
         body {
             margin: 0;
@@ -56,7 +56,7 @@
         <ul class="nav-links">
             <li><a href="{% url "homepage" %}">Home</a></li>
             <li><a href="{% url "user_registration" %}">Register</a></li>
-            <li><a href="#">Login</a></li>
+            <li><a href="{% url 'login' %}">Login</a></li>
             <li><a href="{% url 'room-register' %}">Rooms</a></li>
         </ul>
     </nav>

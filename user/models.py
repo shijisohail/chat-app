@@ -1,5 +1,7 @@
 from django.db import models
 import uuid
+from django.utils import timezone
+
 # Create your models here.
 
 
@@ -39,3 +41,4 @@ class User(models.Model):
     user_type = models.CharField(max_length=1, choices=UserType.USER_TYPE, default=UserType.SUPER_ADMIN)
     phone_number = models.BigIntegerField(blank=True, null=True)
     password = models.CharField(null=False, blank=False, max_length=250)
+    last_login = models.DateTimeField(default=timezone.now)
