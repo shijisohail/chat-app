@@ -12,6 +12,7 @@
             color: #a4b1cd; /* Light text color */
             font-family: Arial, sans-serif;
         }
+
         .hero {
             background-image: url('text.jpg'); /* Add your background image URL */
             background-size: cover;
@@ -22,6 +23,12 @@
             justify-content: center;
             text-align: left; /* Left-align the content */
             padding-left: 20px; /* Add left padding for better alignment */
+        }
+
+        .logo {
+            font-size: 40px;
+            font-weight: bold;
+            color: #9fef00;
         }
 
         .hero-content {
@@ -43,54 +50,56 @@
 </head>
 <body>
 
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1>Welcome to ChatApp</h1>
-                <p>A place to connect with friends and chat in style.</p>
-                <p>ChatApp is a modern and secure platform that lets you chat, share, and connect with your friends and family. With ChatApp, you can:</p>
-                <ul>
-                    <li><span class="typing-animation"></span></li>
-                    <li><span class="typing-animation"></span></li>
-                    <li><span class="typing-animation"></span></li>
-                    <li><span class="typing-animation"></span></li>
-                    <li><span class="typing-animation"></span></li>
-                </ul>
-                <a class="btn btn-primary" href="#">Get Started</a>
-            </div>
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1>Welcome to
+                <div class="logo">ChatApp</div>
+            </h1>
+            <p>A place to connect with friends and chat in style.</p>
+            <p>ChatApp is a modern and secure platform that lets you chat, share, and connect with your friends and family. With ChatApp, you can:</p>
+            <ul>
+                <li><span class="typing-animation"></span></li>
+                <li><span class="typing-animation"></span></li>
+                <li><span class="typing-animation"></span></li>
+                <li><span class="typing-animation"></span></li>
+                <li><span class="typing-animation"></span></li>
+            </ul>
+            <a class="btn btn-primary" href="{% url 'homepage' %}">Get Started</a>
         </div>
-    </section>
+    </div>
+</section>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        var descriptions = [
-            'Send text messages and make voice and video calls.',
-            'Share photos, videos, and files with ease.',
-            'Create and join group chats on various topics.',
-            'Enjoy end-to-end encryption for your privacy and security.',
-            'Stay connected with your loved ones from anywhere in the world.'
-        ];
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    var descriptions = [
+        'Send text messages and make voice and video calls.',
+        'Share photos, videos, and files with ease.',
+        'Create and join group chats on various topics.',
+        'Enjoy end-to-end encryption for your privacy and security.',
+        'Stay connected with your loved ones from anywhere in the world.'
+    ];
 
-        function typeDescriptions() {
-            var typingElements = document.querySelectorAll('.typing-animation');
-            descriptions.forEach(function (description, index) {
-                typingEffect(typingElements[index], description, 0);
-            });
+    function typeDescriptions() {
+        var typingElements = document.querySelectorAll('.typing-animation');
+        descriptions.forEach(function (description, index) {
+            typingEffect(typingElements[index], description, 0);
+        });
+    }
+
+    function typingEffect(element, text, index) {
+        if (index < text.length) {
+            element.innerHTML += text.charAt(index);
+            setTimeout(function () {
+                typingEffect(element, text, index + 1);
+            }, 50); // Adjust the typing speed here
         }
+    }
 
-        function typingEffect(element, text, index) {
-            if (index < text.length) {
-                element.innerHTML += text.charAt(index);
-                setTimeout(function () {
-                    typingEffect(element, text, index + 1);
-                }, 50); // Adjust the typing speed here
-            }
-        }
-
-        // Start the typing animation after the page is fully loaded
-        window.onload = typeDescriptions;
-    </script>
+    // Start the typing animation after the page is fully loaded
+    window.onload = typeDescriptions;
+</script>
 </body>
 </html>

@@ -16,3 +16,5 @@ EXPOSE 80
 CMD python manage.py migrate
 # Define the command to run your application with Daphne
 #CMD daphne -b 0.0.0.0 -p 80 channels_sockets.asgi:application
+RUN cp env .env
+RUN cat .env
