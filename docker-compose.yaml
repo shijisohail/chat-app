@@ -1,5 +1,19 @@
 version: '3'
 services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: database
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+
   redis:
     image: redis:7
     ports:
@@ -15,3 +29,4 @@ services:
       - "80:80"
     depends_on:
       - redis
+      - postgres
