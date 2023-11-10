@@ -4,10 +4,12 @@
 <head>
     <meta charset="utf-8"/>
     <title>Chat Room</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
+            background-color: #141d2b;
+            color: #a4b1cd;
             text-align: center;
             margin: 0;
             padding: 0;
@@ -17,9 +19,14 @@
             max-width: 600px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #fff;
+            background-color: #333;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+
+        h1 {
+            color: #9fef00;
         }
 
         #chat-log {
@@ -29,6 +36,8 @@
             border: 1px solid #ccc;
             padding: 10px;
             border-radius: 5px;
+            background-color: #333;
+            color: #a4b1cd;
         }
 
         #chat-message-input {
@@ -37,6 +46,8 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             margin-top: 10px;
+            background-color: #333;
+            color: #a4b1cd;
         }
 
         #chat-message-submit {
@@ -48,6 +59,7 @@
             border-radius: 5px;
             cursor: pointer;
             margin-top: 10px;
+            transition: background-color 0.3s;
         }
 
         #chat-message-submit:hover {
@@ -56,12 +68,13 @@
     </style>
 </head>
 <body>
-<div id="chat-container">
-    <h1>Sharjeel's Room</h1>
-    <textarea id="chat-log" rows="10" placeholder="Chat messages will appear here" readonly></textarea>
-    <input id="chat-message-input" type="text" placeholder="Type your message here">
-    <button id="chat-message-submit">Send</button>
-    {{ room_name|json_script:"room-name" }}
+    <div id="chat-container">
+        <h1>Sharjeel's Room</h1>
+        <textarea id="chat-log" rows="10" placeholder="Chat messages will appear here" readonly></textarea>
+        <input id="chat-message-input" type="text" placeholder="Type your message here">
+        <button id="chat-message-submit">Send</button>
+        {{ room_name|json_script:"room-name" }}
+    </div>
 </div>
 <script>
     const roomName = JSON.parse(document.getElementById('room-name').textContent);

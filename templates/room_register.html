@@ -5,45 +5,53 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat Rooms</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
+            background-color: #141d2b;
+            color: #a4b1cd;
             font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
             text-align: center;
-        }
-
-        h1 {
-            color: #333;
+            margin: 0;
+            padding: 0;
         }
 
         .container {
+            background-color: #333;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            width: 400px;
             margin: 50px auto;
             padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-            max-width: 400px;
+        }
+
+        h1 {
+            color: #9fef00;
         }
 
         #room-name-input {
             width: 100%;
             padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin-bottom: 10px;
+            margin: 10px 0;
+            border: 1px solid #a4b1cd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background-color: #333;
+            color: #a4b1cd;
         }
 
         #room-name-submit {
             background-color: #007BFF;
             color: #fff;
             border: none;
-            border-radius: 5px;
+            border-radius: 4px;
             padding: 10px 20px;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
 
         #room-name-submit:hover {
-            background-color: #0056b3;
+            background-color: #9fef00;
         }
     </style>
 </head>
@@ -59,7 +67,7 @@
     <script>
         document.querySelector('#room-name-input').focus();
         document.querySelector('#room-name-input').onkeyup = function(e) {
-            if (e.key === 'Enter') {  // Enter key
+            if (e.key === 'Enter') {
                 document.querySelector('#room-name-submit').click();
             }
         };
