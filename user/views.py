@@ -25,11 +25,13 @@ def login(request):
                     refresh = RefreshToken.for_user(user)
                     access_token = str(refresh.access_token)
                     return JsonResponse({'access_token': access_token})
+                else:
+                    return render(request, 'user/login_failed.html')
 
         else:
             form = LoginForm()
 
-        return render(request, 'login.html', {'form': form})
+        return render(request, 'user/login.html', {'form': form})
     except Exception as ex:
         print("LOGIN EXC: ", ex)
 
@@ -53,8 +55,8 @@ def user_registration(request):
             return redirect('registration_success')
     else:
         form = UserRegistrationForm()
-    return render(request, '../templates/user_creation.html', {'form': form})
+    return render(request, '../templates/user/user_creation.html', {'form': form})
 
 
 def registration_success(request):
-    return render(request, '../templates/creation_success.html')
+    return render(request, '../templates/user/creation_success.html')
