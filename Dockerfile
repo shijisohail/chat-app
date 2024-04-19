@@ -11,8 +11,8 @@ COPY . /app
 RUN pip install -r requirements.txt
 
 # Make port 8008 available to the world outside this container
-EXPOSE 80
-
+EXPOSE 8000
+EXPOSE 8080
 # Define the command to run your application with Daphne
 RUN cp env .env
 RUN cat .env

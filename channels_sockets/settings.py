@@ -36,6 +36,7 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     "daphne",
     "user",
+    "chat",
     'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
@@ -164,7 +165,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("redis", 6379)],
+            "hosts": [(os.environ.get("redis_host"), 6379)],
         },
     },
 }

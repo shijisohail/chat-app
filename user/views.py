@@ -18,7 +18,7 @@ def login(request):
             if form.is_valid():
                 username = form.cleaned_data['username']
                 password = form.cleaned_data['password']
-                user = User.objects.get(username=username)
+                user = User.objects.filter(username=username).first()
 
                 if user is not None and check_password(password, user.password):
                     custom_login(request, user)

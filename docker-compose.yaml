@@ -7,7 +7,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin
     ports:
-      - "5432:5432"
+      - "5433:5433"
     volumes:
       - postgres_data:/var/lib/postgresql/data
   adminer:
@@ -26,9 +26,9 @@ services:
       dockerfile: Dockerfile  # Specify the name of your Dockerfile
     environment:
       - DJANGO_SETTINGS_MODULE=channels_sockets.settings
-    command: daphne channels_sockets.asgi:application -b 0.0.0.0 -p 80
+    command: daphne channels_sockets.asgi:application -b 0.0.0.0 -p 8000
     ports:
-      - "80:80"
+      - "8000:8000"
     depends_on:
       - redis
       - postgres
