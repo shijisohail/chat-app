@@ -42,3 +42,8 @@ class User(models.Model):
     phone_number = models.BigIntegerField(blank=True, null=True)
     password = models.CharField(null=False, blank=False, max_length=250)
     last_login = models.DateTimeField(default=timezone.now)
+
+
+class Token(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
+    token = models.CharField(max_length=500)

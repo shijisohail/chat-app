@@ -3,10 +3,9 @@ from .forms import UserRegistrationForm, LoginForm
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.contrib.auth import get_user_model, login as django_login
+from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password, check_password
-from .models import User
-from django.contrib.sessions.models import Session
+from .models import User, Token
 
 
 @csrf_exempt
@@ -22,8 +21,11 @@ def login(request):
 
                 if user is not None and check_password(password, user.password):
                     custom_login(request, user)
+                    request.session.save()
+
                     refresh = RefreshToken.for_user(user)
                     access_token = str(refresh.access_token)
+                    Token.objects.create(user=user, token=access_token)
                     return JsonResponse({'access_token': access_token})
                 else:
                     return render(request, 'user/login_failed.html')

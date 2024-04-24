@@ -1,16 +1,26 @@
 import logging
-
+from channels.auth import login
+from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
 from asgiref.sync import sync_to_async
 import json
+import sys
 
-# Configure the logger
-logging.basicConfig(
-    level=logging.ERROR,  # Set the log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
-    format='%(asctime)s [%(levelname)s]: %(message)s',  # Define the log message format
-    filename='app.log',  # Specify a log file
-    filemode='w'  # Log file mode (append or write)
-)
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)  # Set the global log level
+
+# Create a formatter
+formatter = logging.Formatter('%(asctime)s [%(levelname)s]: %(message)s')
+
+# Create a console handler and set the log level
+console_handler = logging.StreamHandler(sys.stdout)
+console_handler.setLevel(logging.DEBUG)  # Set the log level for console output
+
+# Set the formatter for the console handler
+console_handler.setFormatter(formatter)
+
+# Add the console handler to the logger
+logger.addHandler(console_handler)
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -19,38 +29,47 @@ class ChatConsumer(AsyncWebsocketConsumer):
         self.room_id = None
         self.room_name = None
         self.room_group_name = None
+        self.user = None
 
     async def connect(self):
         try:
             self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
             self.room_group_name = f"chat_{self.room_name}"
+            self.user = self.scope["user"]
             await self.channel_layer.group_add(self.room_group_name, self.channel_name)
             await self.accept()
         except Exception as e:
             logging.error(f"Connection error: {e}")
 
+    async def disconnect(self, code):
+        try:
+            print(f"Disconnect from {self.room_group_name}")
+        except Exception as e:
+            logging.error(f"Disconnect Error: {e}")
+
+    # @websocket_authorization
     @sync_to_async
     def get_chat_by_id(self):
         try:
             from .models import ChatRoom
-            return ChatRoom.objects.filter(id=self.room_id).first()
+            return ChatRoom.objects.filter(name=self.room_name).first()
         except self.room_id.DoesNotExist as e:
             logging.error(f"ChatRoom does not exist: {e}")
 
-    @sync_to_async
+    @database_sync_to_async
     def create_message(self, chat_room, message):
         try:
             from .models import Message
-            logging.error(f"USER: {self.scope['user'] if self.scope['user'] else None}")
-            return Message.objects.create(room=chat_room, sender=self.scope['user'] if self.scope['user'] else Noney, content=message)
+            logging.debug(f"USER: {self.scope['user'] if self.scope['user'] else None}")
+            Message.objects.create(room=chat_room, user=self.scope['user'] if self.scope['user'] else None, content=message)
+            return f"{self.scope['user'].first_name if self.scope['user'] else None}: {message}"
         except Exception as e:
-            print("Message could not be created:", e)
             logging.error(f"No message created: {e}")
 
     async def receive(self, text_data):
         try:
-            text_data_json = json.loads(text_data)
-            message = text_data_json["message"]
+            await database_sync_to_async(self.scope["session"].save)()
+            message = text_data
             chat_room = await self.get_chat_by_id()
             message = await self.create_message(chat_room, message)
             await self.channel_layer.group_send(

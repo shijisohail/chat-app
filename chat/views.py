@@ -8,11 +8,12 @@ def room_register(request):
 
 def room(request, room_name):
     try:
-        chat = ChatRoom.objects.create(name=room_name)
+        chat = ChatRoom.objects.get_or_create(name=room_name)
         print("CHATTTTT", chat)
         return render(request, "../templates/room.html", {"room_name": room_name})
     except Exception as e:
         print("EXC", e)
+
 
 def homepage(request):
     return render(request, "../templates/homepage.html")
