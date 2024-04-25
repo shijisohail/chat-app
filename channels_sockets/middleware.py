@@ -1,17 +1,10 @@
 import traceback
-from urllib.parse import parse_qs
-
+import django.db
 from channels.auth import AuthMiddlewareStack
 from channels.db import database_sync_to_async
 from django.conf import settings
-from django.contrib.auth import get_user_model
-from django.contrib.auth.models import AnonymousUser
-from django.db import close_old_connections
 from jwt import decode as jwt_decode
 from jwt import InvalidSignatureError, ExpiredSignatureError, DecodeError
-from user.models import User
-
-# User = get_user_model()
 
 
 class JWTAuthMiddleware:
@@ -19,7 +12,10 @@ class JWTAuthMiddleware:
         self.app = app
 
     async def __call__(self, scope, receive, send):
-        close_old_connections()
+        from django.contrib.auth.models import AnonymousUser
+        from user.models import User
+
+        django.db.close_old_connections()
         try:
             authorization = next(filter(lambda x: x[0] == b'authorization', scope.get('headers')))[1]
             if authorization:
@@ -56,11 +52,15 @@ class JWTAuthMiddleware:
 
     @database_sync_to_async
     def get_user(self, user_id):
+        from user.models import User
+        from django.contrib.auth.models import AnonymousUser
         try:
             return User.objects.get(id=user_id)
         except User.DoesNotExist:
             return AnonymousUser()
 
+# Rename JWTAuthMiddlewareStack function to avoid conflict
 
-def JWTAuthMiddlewareStack(app):
+
+def jwt_auth_middleware_stack(app):
     return JWTAuthMiddleware(AuthMiddlewareStack(app))
