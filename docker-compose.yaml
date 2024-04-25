@@ -26,7 +26,8 @@ services:
       dockerfile: Dockerfile  # Specify the name of your Dockerfile
     environment:
       - DJANGO_SETTINGS_MODULE=channels_sockets.settings
-    command: daphne channels_sockets.asgi:application -b 0.0.0.0 -p 8000
+    command: >
+      sh -c "python manage.py migrate && daphne channels_sockets.asgi:application -b 0.0.0.0 -p 8000"
     ports:
       - "8000:8000"
     depends_on:

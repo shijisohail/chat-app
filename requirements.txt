@@ -23,6 +23,7 @@ pyasn1-modules==0.3.0
 pycparser==2.21
 PyJWT==2.8.0
 pyOpenSSL==23.3.0
+python-dotenv==1.0.0
 pytz==2023.3.post1
 redis==5.0.1
 service-identity==23.1.0
@@ -32,4 +33,3 @@ Twisted==23.10.0
 txaio==23.1.1
 typing_extensions==4.8.0
 zope.interface==6.1
-python-dotenv~=1.0.0

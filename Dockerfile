@@ -9,6 +9,7 @@ COPY . /app
 
 # Install any needed packages specified in requirements.txt
 RUN pip install -r requirements.txt
+CMD ["python", "manage.py", "migrate"]
 
 # Make port 8008 available to the world outside this container
 EXPOSE 8000

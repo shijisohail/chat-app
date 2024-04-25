@@ -1,6 +1,8 @@
+import logging
+
 from django.shortcuts import render, redirect
 from .forms import UserRegistrationForm, LoginForm
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseBadRequest, HttpResponseServerError
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import get_user_model
@@ -29,13 +31,19 @@ def login(request):
                     return JsonResponse({'access_token': access_token})
                 else:
                     return render(request, 'user/login_failed.html')
+            else:
+                logging.error(f'Invalid form Clean DATA: {form.cleaned_data} \n FORM ERRORS: {form.errors}')
+                return HttpResponseBadRequest(f'Invalid form data: {form.errors}')
 
         else:
             form = LoginForm()
 
         return render(request, 'user/login.html', {'form': form})
+
     except Exception as ex:
         print("LOGIN EXC: ", ex)
+        return HttpResponseServerError("An error occurred during login.")  # Return a generic error response
+
 
 
 def custom_login(request, user):
