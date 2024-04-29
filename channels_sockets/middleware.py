@@ -13,13 +13,11 @@ class JWTAuthMiddleware:
 
     async def __call__(self, scope, receive, send):
         from django.contrib.auth.models import AnonymousUser
-        from user.models import User
-
         django.db.close_old_connections()
         try:
-            authorization = next(filter(lambda x: x[0] == b'authorization', scope.get('headers')))[1]
+            authorization = scope.get('query_string')
             if authorization:
-                jwt_token = authorization.decode("utf-8").split()[1]
+                jwt_token = authorization.decode('utf8').split('=')[1]
 
                 jwt_payload = self.get_payload(jwt_token)
                 user_credentials = self.get_user_credentials(jwt_payload)

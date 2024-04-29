@@ -40,11 +40,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
         except Exception as e:
             logging.error(f"Connection error: {e}")
 
-    async def disconnect(self, code):
-        try:
-            print(f"Disconnect from {self.room_group_name}")
-        except Exception as e:
-            logging.error(f"Disconnect Error: {e}")
+    # async def disconnect(self, code):
+    #     try:
+    #         print(f"Disconnect from {self.room_group_name}")
+    #     except Exception as e:
+    #         logging.error(f"Disconnect Error: {e}")
 
     # @websocket_authorization
     @sync_to_async

@@ -28,7 +28,8 @@ def login(request):
                     refresh = RefreshToken.for_user(user)
                     access_token = str(refresh.access_token)
                     Token.objects.create(user=user, token=access_token)
-                    return JsonResponse({'access_token': access_token})
+                    request.session['Authorization'] = access_token
+                    return render(request, 'user/login_success.html')
                 else:
                     return render(request, 'user/login_failed.html')
             else:

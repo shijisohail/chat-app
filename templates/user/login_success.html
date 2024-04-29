@@ -1,0 +1,118 @@
+<!-- user_management/templates/user_management/success_template.html -->
+{% include 'navbar.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Login Success</title>
+    <style>
+        /* Custom CSS for dark mode */
+        body {
+            background-color: #141d2b;
+            color: #a4b1cd;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            background-color: #2a3c57;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add this line for box shadow */
+            width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            margin-top: 50px;
+        }
+
+        h2 {
+            color: #9fef00; /* GREEN color */
+        }
+
+        p {
+            color: #a4b1cd; /* Red color */
+        }
+
+
+    input[type="text"],
+    input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #a4b1cd;
+        border-radius: 4px;
+        box-sizing: border-box;
+        background-color: #333;
+        color: #a4b1cd;
+    }
+
+    button {
+        background-color: #007BFF;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 10px 20px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    button:hover {
+        background-color: #9fef00;
+    }
+
+    .form-group {
+        margin: 10px 0;
+        text-align: left;
+    }
+
+    /* Styling for the pop-up message */
+    .popup-message {
+        display: none;
+        background-color: #ff5555;
+        color: #fff;
+        padding: 10px;
+        border-radius: 4px;
+        margin-top: 10px;
+    }
+    </style>
+</head>
+<body>
+    <div class="container fade-in">
+        <h2>Login Succeed!!</h2>
+        <p>Your login attempt has approved.</p>
+        <p id="countdown">Redirecting in <span id="timer">10</span> seconds...</p>
+    </div>
+
+    <script>
+        // JavaScript code to redirect to another page after a countdown
+        let seconds = 5; // Set the countdown duration in seconds
+        const countdownElement = document.getElementById('timer');
+        
+        function updateCountdown() {
+            countdownElement.textContent = seconds;
+            seconds--;
+
+            if (seconds < 0) {
+                // Redirect to another page (e.g., the homepage) when the countdown reaches 0
+                window.location.href = '../../chat/room-register';
+            }
+        }
+        var accessToken = "{{ request.session.Authorization }}";
+        console.log('token === >',  accessToken)
+        
+        // Example: Include the access token in the headers of a fetch request
+        fetch('login', {
+            headers: {
+                'Authorization': 'Bearer ' + accessToken,
+                'Content-Type': 'application/json'
+            },
+            // Other options...
+        });
+
+        // Update the countdown every 1 second
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
