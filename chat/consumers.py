@@ -3,23 +3,8 @@ from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
 from asgiref.sync import sync_to_async
 import json
-import sys
-
-logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)  # Set the global log level
-
-# Create a formatter
-formatter = logging.Formatter('%(asctime)s [%(levelname)s]: %(message)s')
-
-# Create a console handler and set the log level
-console_handler = logging.StreamHandler(sys.stdout)
-console_handler.setLevel(logging.DEBUG)  # Set the log level for console output
-
-# Set the formatter for the console handler
-console_handler.setFormatter(formatter)
-
-# Add the console handler to the logger
-logger.addHandler(console_handler)
+from channels_sockets.settings import logger
+from chat.helpers import retrieve_messages
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -37,16 +22,26 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.user = self.scope["user"]
             await self.channel_layer.group_add(self.room_group_name, self.channel_name)
             await self.accept()
+            # old_messages = await self.retrieve_messages(room_id)
+            # await self.send(text_data=json.dumps({"old_messages": old_messages}))
         except Exception as e:
-            logging.error(f"Connection error: {e}")
+            logger.error(f"Connection error: {e}")
 
-    # async def disconnect(self, code):
-    #     try:
-    #         print(f"Disconnect from {self.room_group_name}")
-    #     except Exception as e:
-    #         logging.error(f"Disconnect Error: {e}")
+    async def retrieve_messages(self, room_id):
+        from .models import Message
+        try:
+            messages = Message.objects.filter(room_id=room_id).values_list('content', flat=True).order_by('-timestamp')
+            return list(messages)
+        except Message.DoesNotExist:
+            logger.error(f'Message does not exist for room {room_id}')
+            return []
 
-    # @websocket_authorization
+    async def disconnect(self, code):
+        try:
+            print(f"Disconnect from {self.room_group_name}")
+        except Exception as e:
+            logging.error(f"Disconnect Error: {e}")
+
     @sync_to_async
     def get_chat_by_id(self):
         try:
@@ -59,7 +54,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
     def create_message(self, chat_room, message):
         try:
             from .models import Message
-            logging.debug(f"USER: {self.scope['user'] if self.scope['user'] else None}")
             Message.objects.create(room=chat_room, user=self.scope['user'] if self.scope['user'] else None, content=message)
             return f"{self.scope['user'].first_name if self.scope['user'] else None}: {message}"
         except Exception as e:
@@ -68,12 +62,16 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         try:
             await database_sync_to_async(self.scope["session"].save)()
-            message = text_data
-            chat_room = await self.get_chat_by_id()
-            message = await self.create_message(chat_room, message)
-            await self.channel_layer.group_send(
-                self.room_group_name, {"type": "chat.message", "message": message}
-            )
+            if text_data == 'retrieve_messages':
+                previous_messages = await retrieve_messages(self.room_name)
+                await self.send(text_data=json.dumps({"previous_messages": previous_messages}))
+            else:
+                message = text_data
+                chat_room = await self.get_chat_by_id()
+                message = await self.create_message(chat_room, message)
+                await self.channel_layer.group_send(
+                    self.room_group_name, {"type": "chat.message", "message": message}
+                )
         except Exception as e:
             logging.error(f"Receive error: {e}")
 
@@ -83,3 +81,4 @@ class ChatConsumer(AsyncWebsocketConsumer):
             await self.send(text_data=json.dumps({"message": message}))
         except Exception as e:
             logging.error(f"Chat message error: {e}")
+

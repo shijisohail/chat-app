@@ -86,12 +86,20 @@ const chatSocket = new WebSocket(websocketUrl);
 
 chatSocket.onopen = function (e) {
     console.log("WebSocket connection established.");
+    chatSocket.send('retrieve_messages')
 };
 
 chatSocket.onmessage = function (e) {
-    console.log("Received message from WebSocket:", e.data);
+     console.log("Received message from WebSocket:", e.data);
     const data = JSON.parse(e.data);
-    document.querySelector('#chat-log').value += (data.message + '\n');
+    if (data.previous_messages) {
+        data.previous_messages.forEach(message => {
+            document.querySelector('#chat-log').value += (message + '\n');
+        });
+    } else {
+        document.querySelector('#chat-log').value += (data.message + '\n');
+    }
+
 };
 
 chatSocket.onclose = function (e) {

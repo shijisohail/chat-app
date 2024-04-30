@@ -9,11 +9,12 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import logging
 from pathlib import Path
 from datetime import timedelta
 from dotenv import load_dotenv
 import os
+import sys
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(os.path.join(os.path.dirname(os.path.dirname(__file__)), ".env"))
@@ -170,3 +171,25 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
+
+""" LOGGER CONFIGURATION """
+
+#  LOGGER INFO
+#  CRITICAL = 50
+#  FATAL = CRITICAL
+#  ERROR = 40
+#  WARNING = 30
+#  WARN = WARNING
+#  INFO = 20
+#  DEBUG = 10
+#  NOTSET = 0
+
+LOGGER_CONFIG = int(os.environ.get("LOGGER_CONFIG"))
+logger = logging.getLogger()
+logger.setLevel(LOGGER_CONFIG)
+formatter = logging.Formatter('%(asctime)s [%(levelname)s]: %(message)s')
+console_handler = logging.StreamHandler(sys.stdout)
+console_handler.setLevel(LOGGER_CONFIG)
+console_handler.setFormatter(formatter)
+logger.addHandler(console_handler)
