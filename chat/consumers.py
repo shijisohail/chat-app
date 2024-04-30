@@ -4,7 +4,6 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from asgiref.sync import sync_to_async
 import json
 from channels_sockets.settings import logger
-from chat.helpers import retrieve_messages
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -72,6 +71,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         )
 
     async def receive(self, text_data):
+        from chat.helpers import retrieve_messages
         try:
             await database_sync_to_async(self.scope["session"].save)()
             if text_data.startswith('typing_status:'):
