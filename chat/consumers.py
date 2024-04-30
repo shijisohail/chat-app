@@ -59,10 +59,25 @@ class ChatConsumer(AsyncWebsocketConsumer):
         except Exception as e:
             logging.error(f"No message created: {e}")
 
+    async def chat_typing(self, event):
+        try:
+            typing_status = event["typing_status"]
+            await self.send(text_data=json.dumps({"typing_status": typing_status}))
+        except Exception as e:
+            logger.error(f"Chat typing error: {e}")
+
+    async def broadcast_typing_status(self, typing_status):
+        await self.channel_layer.group_send(
+            self.room_group_name, {"type": "chat.typing", "typing_status": f'{typing_status}'}
+        )
+
     async def receive(self, text_data):
         try:
             await database_sync_to_async(self.scope["session"].save)()
-            if text_data == 'retrieve_messages':
+            if text_data.startswith('typing_status:'):
+                typing_status = text_data.split(':')[1]
+                await self.broadcast_typing_status(typing_status)
+            elif text_data == 'retrieve_messages':
                 previous_messages = await retrieve_messages(self.room_name)
                 await self.send(text_data=json.dumps({"previous_messages": previous_messages}))
             else:
@@ -73,7 +88,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     self.room_group_name, {"type": "chat.message", "message": message}
                 )
         except Exception as e:
-            logging.error(f"Receive error: {e}")
+            logger.error(f"Receive error: {e}")
 
     async def chat_message(self, event):
         try:
