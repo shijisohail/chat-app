@@ -28,16 +28,21 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def retrieve_messages(self, room_id):
         from .models import Message
+
         try:
-            messages = Message.objects.filter(room_id=room_id).values_list('content', flat=True).order_by('-timestamp')
+            messages = (
+                Message.objects.filter(room_id=room_id)
+                .values_list("content", flat=True)
+                .order_by("-timestamp")
+            )
             return list(messages)
         except Message.DoesNotExist:
-            logger.error(f'Message does not exist for room {room_id}')
+            logger.error(f"Message does not exist for room {room_id}")
             return []
 
     async def disconnect(self, code):
         try:
-            print(f"Disconnect from {self.room_group_name}")
+            logger.info(f"Disconnect from {self.room_group_name}")
         except Exception as e:
             logging.error(f"Disconnect Error: {e}")
 
@@ -45,6 +50,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     def get_chat_by_id(self):
         try:
             from .models import ChatRoom
+
             return ChatRoom.objects.filter(name=self.room_name).first()
         except self.room_id.DoesNotExist as e:
             logging.error(f"ChatRoom does not exist: {e}")
@@ -53,7 +59,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
     def create_message(self, chat_room, message):
         try:
             from .models import Message
-            Message.objects.create(room=chat_room, user=self.scope['user'] if self.scope['user'] else None, content=message)
+
+            Message.objects.create(
+                room=chat_room,
+                user=self.scope["user"] if self.scope["user"] else None,
+                content=message,
+            )
             return f"{self.scope['user'].first_name if self.scope['user'] else None}: {message}"
         except Exception as e:
             logging.error(f"No message created: {e}")
@@ -67,19 +78,23 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def broadcast_typing_status(self, typing_status):
         await self.channel_layer.group_send(
-            self.room_group_name, {"type": "chat.typing", "typing_status": f'{typing_status}'}
+            self.room_group_name,
+            {"type": "chat.typing", "typing_status": f"{typing_status}"},
         )
 
     async def receive(self, text_data):
         from chat.helpers import retrieve_messages
+
         try:
             await database_sync_to_async(self.scope["session"].save)()
-            if text_data.startswith('typing_status:'):
-                typing_status = text_data.split(':')[1]
+            if text_data.startswith("typing_status:"):
+                typing_status = text_data.split(":")[1]
                 await self.broadcast_typing_status(typing_status)
-            elif text_data == 'retrieve_messages':
+            elif text_data == "retrieve_messages":
                 previous_messages = await retrieve_messages(self.room_name)
-                await self.send(text_data=json.dumps({"previous_messages": previous_messages}))
+                await self.send(
+                    text_data=json.dumps({"previous_messages": previous_messages})
+                )
             else:
                 message = text_data
                 chat_room = await self.get_chat_by_id()
@@ -96,4 +111,3 @@ class ChatConsumer(AsyncWebsocketConsumer):
             await self.send(text_data=json.dumps({"message": message}))
         except Exception as e:
             logging.error(f"Chat message error: {e}")
-
