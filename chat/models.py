@@ -10,12 +10,8 @@ class ChatRoom(models.Model):
 
 
 class Message(models.Model):
-    room = models.ForeignKey(
-        ChatRoom, on_delete=models.CASCADE, null=False, blank=False
-    )
-    user = models.ForeignKey(
-        "user.User", on_delete=models.CASCADE, null=False, blank=False
-    )
+    room = models.ForeignKey(ChatRoom, on_delete=models.CASCADE, null=False, blank=False)
+    user = models.ForeignKey("user.User", on_delete=models.CASCADE, null=False, blank=False)
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
 

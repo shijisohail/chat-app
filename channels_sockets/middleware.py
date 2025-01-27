@@ -13,26 +13,27 @@ class JWTAuthMiddleware:
 
     async def __call__(self, scope, receive, send):
         from django.contrib.auth.models import AnonymousUser
-
         django.db.close_old_connections()
         try:
-            authorization = scope.get("query_string")
+            authorization = scope.get('query_string')
             if authorization:
-                jwt_token = authorization.decode("utf8").split("=")[1]
+                jwt_token = authorization.decode('utf8').split('=')[1]
 
                 jwt_payload = self.get_payload(jwt_token)
                 user_credentials = self.get_user_credentials(jwt_payload)
                 user = await self.get_logged_in_user(user_credentials)
-                scope["user"] = user
+                scope['user'] = user
             else:
-                scope["user"] = AnonymousUser()
+                scope['user'] = AnonymousUser()
         except (InvalidSignatureError, KeyError, ExpiredSignatureError, DecodeError):
             traceback.print_exc()
-            scope["user"] = AnonymousUser()
-            return await self.app(scope, receive, send)
+        except:
+            scope['user'] = AnonymousUser()
+        return await self.app(scope, receive, send)
 
     def get_payload(self, jwt_token):
-        payload = jwt_decode(jwt_token, settings.SECRET_KEY, algorithms=["HS256"])
+        payload = jwt_decode(
+            jwt_token, settings.SECRET_KEY, algorithms=["HS256"])
         return payload
 
     def get_user_credentials(self, payload):
@@ -40,7 +41,7 @@ class JWTAuthMiddleware:
         method to get user credentials from jwt token payload.
         defaults to user id.
         """
-        user_id = payload["user_id"]
+        user_id = payload['user_id']
         return user_id
 
     async def get_logged_in_user(self, user_id):
@@ -51,11 +52,12 @@ class JWTAuthMiddleware:
     def get_user(self, user_id):
         from user.models import User
         from django.contrib.auth.models import AnonymousUser
-
         try:
             return User.objects.get(id=user_id)
         except User.DoesNotExist:
             return AnonymousUser()
+
+# Rename JWTAuthMiddlewareStack function to avoid conflict
 
 
 def jwt_auth_middleware_stack(app):

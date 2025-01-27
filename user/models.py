@@ -9,8 +9,8 @@ class UserType:
     SUPER_ADMIN = 1
     ADMIN = 2
     USER_TYPE = [
-        (SUPER_ADMIN, "SUPER_ADMIN"),
-        (ADMIN, "ADMIN"),
+        (SUPER_ADMIN, 'SUPER_ADMIN'),
+        (ADMIN, 'ADMIN'),
     ]
 
 
@@ -20,10 +20,10 @@ class Status:
     INACTIVE = 2
     BLOCKED = 3
     STATUS = [
-        (DELETED, "DELETED"),
-        (ACTIVE, "ACTIVE"),
-        (INACTIVE, "INACTIVE"),
-        (BLOCKED, "BLOCKED"),
+        (DELETED, 'DELETED'),
+        (ACTIVE, 'ACTIVE'),
+        (INACTIVE, 'INACTIVE'),
+        (BLOCKED, 'BLOCKED')
     ]
 
     @classmethod
@@ -37,12 +37,8 @@ class User(models.Model):
     last_name = models.CharField(null=True, blank=True, max_length=100)
     username = models.CharField(null=False, blank=False, max_length=200)
     email = models.EmailField(unique=True, null=False, blank=False)
-    status = models.CharField(
-        max_length=1, choices=Status.STATUS, default=Status.ACTIVE
-    )
-    user_type = models.CharField(
-        max_length=1, choices=UserType.USER_TYPE, default=UserType.SUPER_ADMIN
-    )
+    status = models.CharField(max_length=1, choices=Status.STATUS, default=Status.ACTIVE)
+    user_type = models.CharField(max_length=1, choices=UserType.USER_TYPE, default=UserType.SUPER_ADMIN)
     phone_number = models.BigIntegerField(blank=True, null=True)
     password = models.CharField(null=False, blank=False, max_length=250)
     last_login = models.DateTimeField(default=timezone.now)
