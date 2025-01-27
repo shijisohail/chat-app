@@ -1,6 +1,8 @@
 from django.shortcuts import render
-from .models import ChatRoom
+
 from channels_sockets.settings import logger
+
+from .models import ChatRoom
 
 
 def room_register(request):

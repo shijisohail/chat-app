@@ -1,6 +1,7 @@
-from rest_framework_simplejwt.tokens import RefreshToken
-from channels.db import database_sync_to_async
 import logging
+
+from channels.db import database_sync_to_async
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 def websocket_authorization(func):

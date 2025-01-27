@@ -1,12 +1,15 @@
-from django.shortcuts import render, redirect
-from .forms import UserRegistrationForm, LoginForm
-from django.http import JsonResponse, HttpResponseBadRequest, HttpResponseServerError
+from django.contrib.auth import get_user_model
+from django.contrib.auth.hashers import check_password, make_password
+from django.http import (HttpResponseBadRequest, HttpResponseServerError,
+                         JsonResponse)
+from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.contrib.auth import get_user_model
-from django.contrib.auth.hashers import make_password, check_password
-from .models import User, Token
+
 from channels_sockets.settings import logger
+
+from .forms import LoginForm, UserRegistrationForm
+from .models import Token, User
 
 
 @csrf_exempt

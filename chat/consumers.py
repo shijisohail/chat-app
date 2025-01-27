@@ -1,8 +1,10 @@
+import json
 import logging
+
+from asgiref.sync import sync_to_async
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
-from asgiref.sync import sync_to_async
-import json
+
 from channels_sockets.settings import logger
 
 

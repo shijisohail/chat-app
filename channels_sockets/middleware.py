@@ -1,10 +1,11 @@
 import traceback
+
 import django.db
 from channels.auth import AuthMiddlewareStack
 from channels.db import database_sync_to_async
 from django.conf import settings
+from jwt import DecodeError, ExpiredSignatureError, InvalidSignatureError
 from jwt import decode as jwt_decode
-from jwt import InvalidSignatureError, ExpiredSignatureError, DecodeError
 
 
 class JWTAuthMiddleware:
@@ -49,8 +50,9 @@ class JWTAuthMiddleware:
 
     @database_sync_to_async
     def get_user(self, user_id):
-        from user.models import User
         from django.contrib.auth.models import AnonymousUser
+
+        from user.models import User
 
         try:
             return User.objects.get(id=user_id)

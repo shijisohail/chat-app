@@ -1,7 +1,10 @@
-from channels.db import database_sync_to_async
 import json
-from .models import Message
+
+from channels.db import database_sync_to_async
+
 from channels_sockets.settings import logger
+
+from .models import Message
 
 
 @database_sync_to_async
