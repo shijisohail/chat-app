@@ -6,10 +6,10 @@ import logging
 def websocket_authorization(func):
     async def wrapper(self, *args, **kwargs):
         try:
-            token = self.scope.get('query_string').decode("utf-8").split("=")[1]
+            token = self.scope.get("query_string").decode("utf-8").split("=")[1]
             user = await get_user_from_token(token)
             if user is not None:
-                self.scope['user'] = user
+                self.scope["user"] = user
                 return await func(self, *args, **kwargs)
             else:
                 await self.close()

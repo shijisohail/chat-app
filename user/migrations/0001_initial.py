@@ -8,22 +8,48 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='User',
+            name="User",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('first_name', models.CharField(blank=True, max_length=100, null=True)),
-                ('last_name', models.CharField(blank=True, max_length=100, null=True)),
-                ('username', models.CharField(max_length=200)),
-                ('email', models.EmailField(max_length=254, unique=True)),
-                ('status', models.CharField(choices=[(0, 'DELETED'), (1, 'ACTIVE'), (2, 'INACTIVE'), (3, 'BLOCKED')], default=1, max_length=1)),
-                ('user_type', models.CharField(choices=[(1, 'SUPER_ADMIN'), (2, 'ADMIN')], default=1, max_length=1)),
-                ('phone_number', models.BigIntegerField(blank=True, null=True)),
-                ('password', models.CharField(max_length=250)),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("first_name", models.CharField(blank=True, max_length=100, null=True)),
+                ("last_name", models.CharField(blank=True, max_length=100, null=True)),
+                ("username", models.CharField(max_length=200)),
+                ("email", models.EmailField(max_length=254, unique=True)),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            (0, "DELETED"),
+                            (1, "ACTIVE"),
+                            (2, "INACTIVE"),
+                            (3, "BLOCKED"),
+                        ],
+                        default=1,
+                        max_length=1,
+                    ),
+                ),
+                (
+                    "user_type",
+                    models.CharField(
+                        choices=[(1, "SUPER_ADMIN"), (2, "ADMIN")],
+                        default=1,
+                        max_length=1,
+                    ),
+                ),
+                ("phone_number", models.BigIntegerField(blank=True, null=True)),
+                ("password", models.CharField(max_length=250)),
             ],
         ),
     ]
